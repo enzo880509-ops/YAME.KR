@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A Walkman-inspired YAME music player interface study." />
+    <title>EDITOR’S PICK : MUSIC by YULL -YAME</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="stylesheet" href="../styles.css?v=pip-desktop-play-center-20260925" />
+    <script type="module" src="../app.js?v=pip-desktop-play-center-20260925"></script>
+  </head>
+  <body data-page="music-pick" data-walkman-page="true">
+    <div class="intro-splash intro-splash--walkman" data-intro-splash data-duration="1480" hidden aria-hidden="true">
+      <img data-intro-image data-src="../assets/walkman-intro.gif" alt="" width="1080" height="1080" />
+    </div>
+    <a class="skip-link" href="#walkman-demo">Skip to the player demo</a>
+    <header class="site-header">
+      <div class="utility-bar">
+        <a href="../music-pick/">← Back to Music Picks</a>
+        <span class="issue">YAME MUSIC / INTERFACE STUDY</span>
+      </div>
+      <div class="masthead">
+        <a class="brand-link" href="../" aria-label="YAME home"><img class="brand-logo" src="../assets/yame-logo-top.png" alt="YAME" width="1699" height="363" /></a>
+        <div class="header-actions">
+          <div class="language-button" role="group" aria-label="Language selection">
+            <button type="button" data-language="kr" aria-pressed="false">KR</button>
+            <button type="button" data-language="en" aria-pressed="true">EN</button>
+          </div>
+          <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="walkman-menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+      <nav class="menu-panel" id="walkman-menu" aria-label="Main navigation">
+        <div class="menu-panel__links">
+          <a href="../">Home</a>
+          <a href="../review/">Review</a>
+          <a href="../news/">News</a>
+          <a href="../community/">Community</a>
+          <a href="../what-yame/">What? Yame</a>
+          <a href="https://www.youtube.com/@yamestudiokr" target="_blank" rel="noopener noreferrer">YouTube</a>
+        </div>
+        <div class="menu-panel__motion" aria-hidden="true"><img class="menu-panel__gif" data-menu-gif data-src="../assets/yame-walk2.gif" alt="" width="1080" height="1080" /></div>
+        <a class="menu-panel__music" href="./">Editor's Pick : MUSIC</a>
+      </nav>
+      <nav class="category-bar" aria-label="Content categories">
+        <a href="../review/">Review</a>
+        <a href="../news/">News</a>
+        <a href="../community/">Community</a>
+        <a href="../what-yame/">What? Yame</a>
+        <a class="category-bar__youtube" href="https://www.youtube.com/@yamestudiokr" target="_blank" rel="noopener noreferrer">YouTube <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main class="music-pick walkman-page" id="walkman-demo" data-music-pick data-walkman-page="true" data-initial-track-id="12fJAnaif34" data-walkman-sample-track-id="bNg8GPZkOTc">
+      <header class="music-pick__topline walkman-page__heading">
+        <div>
+          <p class="eyebrow"><span lang="en">MUSIC / EDITOR’S PICK</span><span lang="ko">MUSIC / EDITOR’S PICK</span></p>
+          <h1>
+            <span lang="en"><span class="walkman-yame-acronym">Y</span>OU <span class="walkman-yame-acronym">A</span>CCEPT <span class="walkman-yame-acronym">M</span>Y <span class="walkman-yame-acronym">E</span>CSTASY</span>
+            <span lang="ko"><span class="walkman-yame-acronym">Y</span>OU <span class="walkman-yame-acronym">A</span>CCEPT <span class="walkman-yame-acronym">M</span>Y <span class="walkman-yame-acronym">E</span>CSTASY</span>
+          </h1>
+        </div>
+        <span class="music-pick__count" data-track-count>53 TRACKS</span>
+      </header>
+
+      <div class="music-pick__layout walkman-page__layout">
+        <section class="music-pick__now walkman-device" aria-label="Portable music player">
+          <div class="walkman-device__bezel">
+            <div class="walkman-device__screen">
+              <div class="walkman-device__status">
+                <span class="walkman-device__status-icons" aria-hidden="true">▮▮▮　◉　▰</span>
+              </div>
+              <div class="walkman-device__screen-heading">
+                <span class="walkman-device__screen-title">
+                  <span lang="en"><span class="walkman-yame-acronym">Y</span>OU <span class="walkman-yame-acronym">A</span>CCEPT <span class="walkman-yame-acronym">M</span>Y <span class="walkman-yame-acronym">E</span>CSTASY</span>
+                  <span lang="ko"><span class="walkman-yame-acronym">Y</span>OU <span class="walkman-yame-acronym">A</span>CCEPT <span class="walkman-yame-acronym">M</span>Y <span class="walkman-yame-acronym">E</span>CSTASY</span>
+                </span>
+                <div class="language-button walkman-device__language" role="group" aria-label="Language selection">
+                  <button type="button" data-language="kr" aria-pressed="false" aria-label="한국어">KR</button>
+                  <button type="button" data-language="en" aria-pressed="true" aria-label="English">EN</button>
+                </div>
+                <span data-now-number>01</span>
+              </div>
+              <div class="music-pick__player-wrap walkman-device__video-wrap">
+                <div class="music-pick__player walkman-device__video">
+                  <iframe
+                    data-music-player
+                    src="https://www.youtube-nocookie.com/embed/12fJAnaif34?rel=0&playsinline=1&controls=0"
+                    title="YAME Walkman player sample"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+                </div>
+              </div>
+              <div class="walkman-device__deck">
+                <div class="walkman-device__format">
+                  <span><span lang="en">YAME MUSIC PICKS</span><span lang="ko">YAME 추천 음악</span></span>
+                </div>
+                <div class="walkman-device__visualizer-row">
+                  <div class="music-pick__visualizer walkman-device__visualizer" data-music-visualizer aria-hidden="true"></div>
+                  <button class="walkman-device__playlist-toggle" type="button" data-device-playlist-toggle aria-expanded="false" aria-controls="device-playlist-panel">
+                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h9" /></svg>
+                    <span><span lang="en">PLAYLIST</span><span lang="ko">재생목록</span></span>
+                  </button>
+                </div>
+                <div class="walkman-device__track-info">
+                  <h2 id="now-playing-title" data-now-title>
+                    <span class="walkman-title-track" data-walkman-title-track>
+                      <span class="walkman-title-text" data-walkman-title-text></span>
+                      <span class="walkman-title-copy" data-walkman-title-copy aria-hidden="true"></span>
+                    </span>
+                  </h2>
+                  <p class="music-pick__artist" data-now-artist></p>
+                </div>
+                <div class="walkman-device__timeline">
+                  <div class="walkman-device__time-labels"><span data-playback-elapsed>0:00</span><span data-playback-duration>--:--</span></div>
+                  <input type="range" min="0" max="1" value="0" data-playback-progress aria-label="Seek through the current song" />
+                </div>
+                <nav class="walkman-device__controls" data-track-navigation aria-label="Playlist navigation">
+                  <button type="button" class="walkman-device__repeat" data-repeat-one aria-pressed="false" aria-label="Repeat one">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17 2l4 4-4 4M21 6H9a6 6 0 0 0-5.65 4M7 22l-4-4 4-4M3 18h12a6 6 0 0 0 5.65-4"/><text x="12" y="14.8" text-anchor="middle">1</text></svg>
+                    <span class="visually-hidden">Repeat one</span>
+                  </button>
+                  <button type="button" class="walkman-device__skip" data-track-previous aria-label="Previous track">
+                    <svg viewBox="0 0 64 48" aria-hidden="true" focusable="false"><path class="transport-stop" d="M10 8v32" /><path d="M54 8 23 24l31 16z" /></svg>
+                    <span class="visually-hidden" data-track-previous-title></span>
+                  </button>
+                  <button type="button" class="walkman-device__play" data-player-toggle data-playing="false" aria-label="Play playback" disabled>
+                    <svg class="walkman-device__play-icon walkman-device__play-icon--play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12-7.5z" /></svg>
+                    <svg class="walkman-device__play-icon walkman-device__play-icon--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z" /></svg>
+                  </button>
+                  <button type="button" class="walkman-device__skip" data-track-next aria-label="Next track">
+                    <svg viewBox="0 0 64 48" aria-hidden="true" focusable="false"><path class="transport-stop" d="M54 8v32" /><path d="M10 8l31 16-31 16z" /></svg>
+                    <span class="visually-hidden" data-track-next-title></span>
+                  </button>
+                </nav>
+                <div class="walkman-device__brand" aria-hidden="true">YAME</div>
+                <section class="walkman-device__playlist-panel" id="device-playlist-panel" data-device-playlist-panel hidden aria-label="Track playlist">
+                  <div class="walkman-device__playlist-heading">
+                    <div><p class="eyebrow"><span lang="en">PLAYLIST</span><span lang="ko">재생목록</span></p><span class="walkman-device__playlist-count" data-device-playlist-count></span></div>
+                    <button type="button" class="walkman-device__playlist-close" data-device-playlist-close aria-label="Close playlist">×</button>
+                  </div>
+                  <label class="walkman-device__playlist-search">
+                    <span class="visually-hidden"><span lang="en">Search playlist</span><span lang="ko">재생목록 검색</span></span>
+                    <input type="search" data-device-playlist-search placeholder="Search title or artist" autocomplete="off" />
+                  </label>
+                  <div class="walkman-device__playlist-list" data-device-playlist-list role="listbox" aria-label="Playlist tracks"></div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="music-pick__library" aria-label="Song library">
+          <div class="music-pick__library-heading">
+            <p class="eyebrow"><span lang="en">FIND A TRACK</span><span lang="ko">곡 찾기</span></p>
+            <label class="music-pick__search">
+              <span class="visually-hidden"><span lang="en">Search songs</span><span lang="ko">곡 검색</span></span>
+              <input type="search" data-track-search placeholder="Search title or artist" autocomplete="off" />
+              <span aria-hidden="true">⌕</span>
+            </label>
+          </div>
+          <div class="music-pick__filters" role="group" aria-label="Filter songs by mood">
+            <button type="button" data-track-filter="all" aria-pressed="true">ALL</button>
+            <button type="button" data-track-filter="quiet" aria-pressed="false">QUIET NIGHT</button>
+            <button type="button" data-track-filter="deep" aria-pressed="false">DEEP FEELS</button>
+            <button type="button" data-track-filter="comfort" aria-pressed="false">COMFORT</button>
+            <button type="button" data-track-filter="cinematic" aria-pressed="false">CINEMATIC</button>
+            <button type="button" data-track-filter="rhythm" aria-pressed="false">RHYTHM &amp; ENERGY</button>
+          </div>
+          <div class="music-pick__list" data-track-list tabindex="0" aria-label="Recommended songs"></div>
+          <p class="music-pick__list-note"><span lang="en">SEARCH WITHIN YAME PICKS</span><span lang="ko">YAME 추천곡 안에서 검색</span></p>
+        </aside>
+      </div>
+      <a class="walkman-home-link" href="../"><span lang="en">← BACK TO YAME HOME</span><span lang="ko">← YAME 홈으로 돌아가기</span></a>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand-row">
+        <a class="brand-link brand-link--footer" href="../" aria-label="YAME home"><img class="brand-logo" src="../assets/yame-black.png" alt="YAME" width="1699" height="363" /></a>
+        <p class="footer-motto"><span>MUSIC, VIDEO AND CAMERA CULTURE.<br />SOUND MEETS IMAGE.</span><br /><span lang="ko">음악, 영상, 그리고 카메라 문화.<br />소리와 이미지가 만나다.</span></p>
+      </div>
+      <p class="copyright">© 2026 <img class="brand-inline" src="../assets/yame-black.png" alt="YAME" width="1699" height="363" /> · WWW.YAME.KR</p>
+    </footer>
+  </body>
+</html>

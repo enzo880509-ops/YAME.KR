@@ -1,0 +1,10 @@
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body { margin: 0; padding: 0; background: #fff; }
+.test { width: min(100%, 900px); margin: 0 auto; padding: 0 1rem 2rem; }
+.test__video { width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.test__video iframe { display: block; width: 100%; height: 100%; border: 0; }
+.test__visualizer { height: clamp(6rem, 17vw, 9rem); display: flex; align-items: stretch; justify-content: center; gap: clamp(2px, 0.45vw, 5px); padding: 0.4rem 0.25rem; overflow: hidden; }
+.test__visualizer-column { min-width: 0; flex: 1 1 0; display: flex; flex-direction: column-reverse; justify-content: flex-start; gap: 2px; }
+.test__visualizer-segment { min-height: 2px; flex: 1 1 0; background: #ffe043; opacity: 0; }
+.test__visualizer-segment.is-lit { opacity: 1; }

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="YAME — independent reviews, news and stories about music, video and cameras." />
+    <title>YAME — Music, video & camera culture</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="stylesheet" href="./styles.css?v=pip-desktop-play-center-20260925" />
+    <script>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if (!location.hash) window.scrollTo(0, 0);
+    </script>
+    <script type="module" src="./app.js?v=pip-desktop-play-center-20260925"></script>
+  </head>
+  <body data-page="home">
+    <div class="intro-splash" data-intro-splash hidden aria-hidden="true">
+      <img data-intro-image data-src="./assets/yame-intro.gif" alt="" width="1080" height="1080" />
+    </div>
+
+    <a class="skip-link" href="#featured">Skip to featured articles</a>
+
+    <header class="site-header">
+      <div class="utility-bar">
+        <span class="status-pill"><span class="status-dot"></span> WWW.YAME.KR</span>
+        <span class="issue">MUSIC / VIDEO / CAMERA</span>
+      </div>
+      <div class="masthead">
+        <a class="brand-link" href="./" aria-label="YAME home"><img class="brand-logo" src="./assets/yame-logo-top.png" alt="YAME" width="1699" height="363" /></a>
+        <div class="header-actions">
+          <div class="language-button" role="group" aria-label="Language selection">
+            <button type="button" data-language="kr" aria-pressed="false">KR</button>
+            <button type="button" data-language="en" aria-pressed="true">EN</button>
+          </div>
+          <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+        <div class="language-notice" data-language-notice role="status" aria-live="polite" aria-atomic="true" hidden></div>
+      </div>
+      <nav class="menu-panel" id="main-menu" aria-label="Main navigation">
+        <div class="menu-panel__links">
+          <a href="./" aria-current="page">Home</a>
+          <a href="./review/">Review</a>
+          <a href="./news/">News</a>
+          <a href="./community/">Community</a>
+          <a href="./what-yame/">What? Yame</a>
+          <a href="https://www.youtube.com/@yamestudiokr" target="_blank" rel="noopener noreferrer">YouTube</a>
+        </div>
+        <div class="menu-panel__motion" aria-hidden="true">
+          <img class="menu-panel__gif" data-menu-gif data-src="./assets/yame-walk2.gif" alt="" width="1080" height="1080" />
+        </div>
+        <a class="menu-panel__music" href="./music-walkman-demo/">Editor's Pick : MUSIC</a>
+      </nav>
+      <nav class="category-bar" aria-label="Content categories">
+        <a href="./review/">Review</a>
+        <a href="./news/">News</a>
+        <a href="./community/">Community</a>
+        <a href="./what-yame/">What? Yame</a>
+        <a class="category-bar__youtube" href="https://www.youtube.com/@yamestudiokr" target="_blank" rel="noopener noreferrer">YouTube <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="featured" id="featured" role="region" aria-roledescription="carousel" aria-labelledby="featured-title">
+        <div class="featured-heading">
+          <div>
+            <p class="eyebrow">Cameras / Sound / Stories</p>
+            <h2 id="featured-title">IN FOCUS.</h2>
+          </div>
+          <div class="carousel-controls" aria-label="Article carousel controls">
+            <span class="carousel-count" aria-hidden="true"><span data-slide-number>01</span> / 08</span>
+            <button class="carousel-arrow" data-slide-prev type="button" aria-label="Previous featured article" aria-controls="featured-track" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7" /></svg></button>
+            <button class="carousel-arrow" data-slide-next type="button" aria-label="Next featured article" aria-controls="featured-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7" /></svg></button>
+          </div>
+        </div>
+        <div class="carousel-track" id="featured-track" tabindex="0" aria-label="Featured articles. Swipe or use the left and right arrow keys.">
+          <article class="feature-slide" data-feature-slot="review-latest-1" role="group" aria-roledescription="slide" aria-label="1 of 8: Canon EOS C80">
+            <a class="feature-link" href="./article/?story=canon-eos-c80" draggable="false">
+              <div class="feature-photo feature-photo--camera">
+                <img src="./assets/canon-eos-c80-slider.png" alt="Canon EOS C80 cinema camera in hand" width="1440" height="1440" fetchpriority="high" draggable="false" />
+                <span class="feature-tag">Camera / Review</span>
+              </div>
+              <div class="feature-copy"><p class="kicker">Canon / Cinema EOS</p><h3>EOS C80.<br />THINK CINEMA.</h3><p>A closer look at a compact full-frame cinema tool.</p></div>
+            </a>
+          </article>
+          <article class="feature-slide" data-feature-slot="review-latest-2" role="group" aria-roledescription="slide" aria-label="2 of 8: Sony FX5">
+            <a class="feature-link" href="./article/?story=sony-fx5" draggable="false">
+              <div class="feature-photo feature-photo--sony">
+                <img src="./assets/sony-fx5-slider.png" alt="Sony FX5 Cinema Line camera close-up" width="1440" height="1440" draggable="false" />
+                <span class="feature-tag">Camera / Review</span>
+              </div>
+              <div class="feature-copy"><p class="kicker">Sony / Cinema Line</p><h3>FX5.<br />IN THE FRAME.</h3><p>What Sony’s filmmaking camera brings to the shoot.</p></div>
+            </a>
+          </article>
+          <article class="feature-slide" data-feature-slot="review-latest-3" role="group" aria-roledescription="slide" aria-label="3 of 8: LEAK Sandwich 150">
+            <a class="feature-link" href="./article/?story=leak-sandwich-150" draggable="false">
+              <div class="feature-photo feature-photo--audio">
+                <img src="./assets/leak-sandwich-150-slider.png" alt="LEAK Sandwich 150 loudspeaker in a listening room" width="1440" height="1440" draggable="false" />
+                <span class="feature-tag">Audio / Review</span>
+              </div>
+              <div class="feature-copy"><p class="kicker">LEAK / Sandwich 150</p><h3>MADE FOR<br />LISTENING.</h3><p>A classic speaker idea, revisited for the listening room.</p></div>
+            </a>
+          </article>
+          <article class="feature-slide" data-feature-slot="news-latest-1" role="group" aria-roledescription="slide" aria-label="4 of 8: Rescene and NMIXX Win Awards at TMA">
+            <a class="feature-link" href="./article/?story=rescene-nmixx-tma" draggable="false">
+              <div class="feature-photo feature-photo--news">
+                <img src="./assets/rescene-nmixx-tma.png" alt="NMIXX and Rescene group photographs" width="2048" height="2048" draggable="false" />
+                <span class="feature-tag">News / Culture</span>
+              </div>
+              <div class="feature-copy"><p class="kicker">News / Culture</p><h3>RESCENE + NMIXX.<br />TMA WINNERS.</h3><p lang="ko">리센느와 엔믹스의 2026 TMA 수상 소식.</p></div>
+            </a>
+          </article>
+          <article class="feature-slide" data-feature-slot="news-latest-2" role="group" aria-roledescription="slide" aria-label="5 of 8: After the last note">
+            <a class="feature-link" href="./article/?story=after-the-last-note" draggable="false">
+              <div class="feature-photo feature-photo--live">
+                <img src="https://images.unsplash.com/photo-1565035010268-a3816f98589a?auto=format&amp;fit=crop&amp;w=1000&amp;h=1000&amp;q=85" alt="A live music audience beneath saturated stage lights" width="1000" height="1000" draggable="false" loading="lazy" />
+                <span class="feature-tag">News / Live</span>
+              </div>
+              <div class="feature-copy"><p class="kicker">News / Live culture</p><h3>AFTER THE<br />LAST NOTE.</h3><p>The small rooms behind the loudest new scenes.</p></div>
+            </a>
+          </article>
+          <article class="feature-slide" data-feature-slot="news-latest-3" role="group" aria-roledescription="slide" aria-label="6 of 8: The art of slow listening">
+            <a class="feature-link" href="./article/?story=slow-listening" draggable="false">
+              <div class="feature-photo feature-photo--news">
+                <img src="https://images.unsplash.com/photo-1602848596718-45693ff58c78?auto=format&amp;fit=crop&amp;w=1000&amp;h=1000&amp;q=85" alt="A close view of a black vinyl record" width="1000" height="1000" draggable="false" loading="lazy" />
+                <span class="feature-tag">News / Music</span>
+              </div>
+              <div class="feature-copy"><p class="kicker">News / Music</p><h3>THE ART OF<br />SLOW LISTENING.</h3><p>A record asks for your time, your hands and your attention.</p></div>
+            </a>
+          </article>
+          <article class="feature-slide" data-feature-slot="news-latest-4" role="group" aria-roledescription="slide" aria-label="7 of 8: Room tone is the song">
+            <a class="feature-link" href="./article/?story=room-tone" draggable="false">
+              <div class="feature-photo feature-photo--news">
+                <img src="https://images.unsplash.com/photo-1669801158950-f663cf15298c?auto=format&amp;fit=crop&amp;w=1000&amp;h=1000&amp;q=85" alt="Music equipment in a dim creative space" width="1000" height="1000" draggable="false" loading="lazy" />
+                <span class="feature-tag">News / Music</span>
+              </div>
+              <div class="feature-copy"><p class="kicker">News / Music</p><h3>ROOM TONE<br />IS THE SONG.</h3><p>Producers are letting imperfect spaces back into the mix.</p></div>
+            </a>
+          </article>
+          <article class="feature-slide" data-feature-slot="news-latest-5" role="group" aria-roledescription="slide" aria-label="8 of 8: The night bus playlist">
+            <a class="feature-link" href="./article/?story=night-bus-playlist" draggable="false">
+              <div class="feature-photo feature-photo--live">
+                <img src="https://images.unsplash.com/photo-1565035010268-a3816f98589a?auto=format&amp;fit=crop&amp;w=1000&amp;h=1000&amp;q=85" alt="A crowd gathered around a live performance" width="1000" height="1000" draggable="false" loading="lazy" />
+                <span class="feature-tag">News / Music</span>
+              </div>
+              <div class="feature-copy"><p class="kicker">News / Music</p><h3>THE NIGHT BUS<br />PLAYLIST.</h3><p>Four ways a city changes through headphones after midnight.</p></div>
+            </a>
+          </article>
+        </div>
+        <div class="carousel-footer">
+          <p>Drag to explore <span aria-hidden="true">↔</span></p>
+          <div class="carousel-dots" role="group" aria-label="Choose a featured article">
+            <button type="button" class="carousel-dot" data-slide-to="0" aria-label="Show Canon EOS C80" aria-current="true" aria-controls="featured-track"></button>
+            <button type="button" class="carousel-dot" data-slide-to="1" aria-label="Show Sony FX5" aria-controls="featured-track"></button>
+            <button type="button" class="carousel-dot" data-slide-to="2" aria-label="Show LEAK Sandwich 150" aria-controls="featured-track"></button>
+            <button type="button" class="carousel-dot" data-slide-to="3" aria-label="Show Rescene and NMIXX TMA awards story" aria-controls="featured-track"></button>
+            <button type="button" class="carousel-dot" data-slide-to="4" aria-label="Show After the last note" aria-controls="featured-track"></button>
+            <button type="button" class="carousel-dot" data-slide-to="5" aria-label="Show The art of slow listening" aria-controls="featured-track"></button>
+            <button type="button" class="carousel-dot" data-slide-to="6" aria-label="Show Room tone is the song" aria-controls="featured-track"></button>
+            <button type="button" class="carousel-dot" data-slide-to="7" aria-label="Show The night bus playlist" aria-controls="featured-track"></button>
+          </div>
+        </div>
+        <p class="visually-hidden" data-carousel-status aria-live="polite" aria-atomic="true">Featured article 1 of 8: Canon EOS C80.</p>
+      </section>
+
+      <section class="intro" aria-labelledby="page-title">
+        <h1 id="page-title">THE STORIES BEHIND <em>SOUND</em> &amp; IMAGE.</h1>
+      </section>
+
+      <section class="story-stack" id="review" aria-label="Featured reviews and stories">
+        <a class="story-card story-card--hero" href="./article/?story=mirrorless-after-dark" data-story="mirrorless-after-dark">
+          <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&amp;fit=crop&amp;w=1800&amp;q=88" alt="A mirrorless camera ready for a field test" />
+          <span class="story-card__wash"></span>
+          <span class="story-card__content">
+            <span class="kicker">Review / Camera</span>
+            <span class="headline">MIRRORLESS<br />AFTER DARK</span>
+            <span class="summary">A low-light field test built around the needs of music and video creators.</span>
+          </span>
+        </a>
+
+        <a class="story-card story-card--compact story-card--yellow" href="./article/?story=rescene-nmixx-tma" data-story="rescene-nmixx-tma">
+          <img src="./assets/rescene-nmixx-tma.png" alt="NMIXX and Rescene group photographs" />
+          <span class="story-card__wash"></span>
+          <span class="story-card__content">
+            <span class="kicker">News / Culture</span>
+            <span class="headline">RESCENE + NMIXX.<br />TMA WINNERS.</span>
+            <span class="summary" lang="ko">리센느와 엔믹스의 2026 TMA 수상 소식.</span>
+          </span>
+        </a>
+
+        <a class="story-card story-card--compact story-card--red" href="./article/?story=one-camera-one-take" data-story="one-camera-one-take">
+          <img src="https://images.unsplash.com/photo-1669801158950-f663cf15298c?auto=format&amp;fit=crop&amp;w=1600&amp;q=88" alt="Music gear in a dim creative space" />
+          <span class="story-card__wash"></span>
+          <span class="story-card__content">
+            <span class="kicker">News / Video</span>
+            <span class="headline">ONE CAMERA.<br />ONE TAKE.</span>
+            <span class="summary">Building a music film around performance instead of coverage.</span>
+          </span>
+        </a>
+      </section>
+
+      <section class="manifesto" id="community">
+        <div>
+          <p class="eyebrow">Community / <img class="brand-inline" src="./assets/yame-logo.png" alt="YAME" width="1699" height="363" /> Studio</p>
+          <p class="manifesto__quote">MADE FOR PEOPLE WHO PRESS RECORD AND CARE WHAT HAPPENS NEXT.</p>
+        </div>
+        <div class="community-copy">
+          <p>Share field notes, practical camera questions, music discoveries and production ideas with the <img class="brand-inline" src="./assets/yame-logo.png" alt="YAME" width="1699" height="363" /> community.</p>
+          <a class="community-link" href="https://www.youtube.com/@yamestudiokr" target="_blank" rel="noopener noreferrer" aria-label="Visit YAME on YouTube">Visit <img class="brand-inline" src="./assets/yame-logo.png" alt="YAME" width="1699" height="363" /> on YouTube <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand-row"><a class="brand-link brand-link--footer" href="./" aria-label="YAME home"><img class="brand-logo" src="./assets/yame-black.png" alt="YAME" width="1699" height="363" /></a>
+      <p class="footer-motto"><span>MUSIC, VIDEO AND CAMERA CULTURE.<br />SOUND MEETS IMAGE.</span><br /><span lang="ko">음악, 영상, 그리고 카메라 문화.<br />소리와 이미지가 만나다.</span></p></div>
+      <p class="copyright">© 2026 <img class="brand-inline" src="./assets/yame-black.png" alt="YAME" width="1699" height="363" /> · WWW.YAME.KR</p>
+    </footer>
+  </body>
+</html>

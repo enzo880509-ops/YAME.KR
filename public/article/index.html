@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A story from YAME." />
+    <title>Story — YAME</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="stylesheet" href="../styles.css?v=pip-desktop-play-center-20260925" />
+    <script type="module" src="../app.js?v=pip-desktop-play-center-20260925"></script>
+  </head>
+  <body data-page="article">
+    <a class="skip-link" href="#article-body">Skip to article</a>
+    <header class="site-header site-header--article">
+      <div class="utility-bar">
+        <a href="../">← Back to all stories</a>
+        <span class="issue"><img class="brand-inline" src="../assets/yame-logo.png" alt="YAME" width="1699" height="363" /> / STORY</span>
+      </div>
+      <div class="masthead">
+        <a class="brand-link" href="../" aria-label="YAME home"><img class="brand-logo" src="../assets/yame-logo-top.png" alt="YAME" width="1699" height="363" /></a>
+        <a class="close-button" href="../" aria-label="Close article">×</a>
+      </div>
+      <nav class="category-bar" aria-label="Content categories">
+        <a href="../review/">Review</a>
+        <a href="../news/">News</a>
+        <a href="../community/">Community</a>
+        <a href="../what-yame/">What? Yame</a>
+        <a class="category-bar__youtube" href="https://www.youtube.com/@yamestudiokr" target="_blank" rel="noopener noreferrer">YouTube <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="article-root" aria-live="polite"></main>
+
+    <template id="article-template">
+      <article class="article-shell">
+        <header class="article-hero">
+          <div class="article-hero__copy">
+            <p class="kicker" data-field="kicker"></p>
+            <h1 data-field="title"></h1>
+            <p class="article-dek" data-field="dek"></p>
+            <div class="byline">
+              <span>Words by <strong data-field="author"></strong></span>
+              <span data-field="readTime"></span>
+            </div>
+          </div>
+          <figure class="article-hero__image">
+            <img data-field="image" src="" alt="" />
+            <figcaption data-field="caption"></figcaption>
+          </figure>
+          <div class="article-gallery" data-article-gallery hidden aria-label="More product views"></div>
+        </header>
+        <div class="article-body" id="article-body" data-field="body"></div>
+        <footer class="article-end">
+          <span>END / <img class="brand-inline" src="../assets/yame-black.png" alt="YAME" width="1699" height="363" /></span>
+          <nav class="article-navigation" data-article-navigation aria-label="More stories"></nav>
+        </footer>
+      </article>
+    </template>
+
+    <footer class="site-footer">
+      <div class="footer-brand-row"><a class="brand-link brand-link--footer" href="../" aria-label="YAME home"><img class="brand-logo" src="../assets/yame-black.png" alt="YAME" width="1699" height="363" /></a>
+      <p class="footer-motto"><span>MUSIC, VIDEO AND CAMERA CULTURE.<br />SOUND MEETS IMAGE.</span><br /><span lang="ko">음악, 영상, 그리고 카메라 문화.<br />소리와 이미지가 만나다.</span></p></div>
+      <p class="copyright">© 2026 <img class="brand-inline" src="../assets/yame-black.png" alt="YAME" width="1699" height="363" /> · WWW.YAME.KR</p>
+    </footer>
+  </body>
+</html>

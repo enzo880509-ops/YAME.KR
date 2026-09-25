@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Walkman PIP Visual Test — YAME</title>
+    <link rel="stylesheet" href="../styles.css?v=pip-desktop-play-center-20260925" />
+    <script type="module" src="../app.js?v=pip-desktop-play-center-20260925"></script>
+    <style>
+      :root { color-scheme: dark; }
+      html, body { width: 100%; min-height: 100%; margin: 0; background: #ffe043; }
+      body { min-height: 100svh; overflow: hidden; }
+      .pip-stage { min-height: 100svh; background: #ffe043; }
+      .pip-window { position: fixed; right: clamp(1rem, 5vw, 2rem); bottom: clamp(1rem, 4vh, 2rem); width: min(72vw, 278px); overflow: hidden; color: #f3f3ef; background: #050505; border: 1px solid #47494b; border-radius: 0.7rem; box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 24%); container-type: inline-size; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; transition: transform 320ms cubic-bezier(.2,.8,.2,1); }
+      .pip-window.is-dragging { cursor: grabbing; }
+      .pip-window.is-hidden-left { transform: translateX(calc(-100% - 24px)); }
+      .pip-window.is-hidden-right { transform: translateX(calc(100% + 24px)); }
+      .pip-edge-bar { box-sizing: border-box; -webkit-appearance: none; appearance: none; position: fixed; z-index: 5; top: var(--pip-edge-y, 50%); display: inline-flex; min-height: 46px; align-items: center; gap: 9px; transform: translateY(-50%); padding: 0 13px; color: #ffe043; background: #101010; border: 1px solid #292929; border-radius: 0; box-shadow: 0 5px 18px rgb(0 0 0 / 18%); font: 900 11px/1 Archivo, sans-serif; letter-spacing: 0.08em; white-space: nowrap; cursor: ns-resize; touch-action: none; transition: top 130ms cubic-bezier(.2,.8,.2,1); -webkit-tap-highlight-color: transparent; }
+      .pip-edge-bar[hidden] { display: none !important; }
+      .pip-edge-bar--left { left: env(safe-area-inset-left, 0px); border-radius: 0 8px 8px 0; }
+      .pip-edge-bar--right { right: env(safe-area-inset-right, 0px); border-radius: 8px 0 0 8px; }
+      .pip-edge-bar__eq { display: inline-flex; height: 14px; align-items: center; gap: 2px; }
+      .pip-edge-bar__eq i { display: block; width: 3px; height: 5px; background: currentColor; }
+      .pip-edge-bar__eq i:nth-child(2) { height: 11px; }
+      .pip-edge-bar__eq i:nth-child(3) { height: 8px; }
+      .pip-edge-bar__eq i:nth-child(4) { height: 13px; }
+      .pip-screen { position: relative; padding: 4cqi 5cqi 3cqi; }
+      .pip-stage [lang="ko"] { display: none; }
+      html[lang="ko"] .pip-stage [lang="en"] { display: none; }
+      html[lang="ko"] .pip-stage [lang="ko"] { display: inline; }
+      .pip-heading { display: flex; height: 11cqi; align-items: center; gap: 2cqi; overflow: hidden; border-bottom: 1px solid #47494b; font: 900 3.2cqi/1 Archivo, sans-serif; letter-spacing: 0.09em; white-space: nowrap; }
+      .pip-heading__title { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; }
+      .pip-heading__title b { color: #ffe043; }
+      .pip-number { flex: 0 0 auto; color: #ffe043; font-size: 3cqi; }
+      .pip-art { width: 100%; aspect-ratio: 4 / 3; margin-top: 3cqi; overflow: hidden; color: #fff; background: #050505; }
+      .pip-art .music-pick__player { width: 100%; height: 100%; aspect-ratio: auto; background: #050505; }
+      .pip-format { display: flex; height: 9cqi; align-items: center; color: #b7b9b7; font: 800 2.8cqi Archivo, sans-serif; letter-spacing: 0.06em; }
+      .pip-eq-row { display: flex; flex-direction: column; align-items: stretch; gap: 1.5cqi; margin-top: 1cqi; }
+      .pip-eq { display: flex; width: 100%; height: 6cqi; min-height: 8px; align-items: stretch; gap: 0.65cqi; }
+      .pip-eq .music-pick__visualizer-column { display: flex; min-width: 0; flex: 1 1 0; flex-direction: column-reverse; justify-content: flex-start; gap: 1px; }
+      .pip-eq .music-pick__visualizer-segment { display: block; width: 100%; min-height: 1px; flex: 1 1 0; background: #ffe043; opacity: 0.32; }
+      .pip-eq .music-pick__visualizer-segment.is-lit { opacity: 0.95; }
+      .pip-playlist { box-sizing: border-box; -webkit-appearance: none; appearance: none; display: grid; width: 100%; min-height: 12cqi; padding: 0; place-items: center; color: #ffe043; background: #101010; border: 1px solid #292929; border-radius: 0; font-family: Archivo, sans-serif; font-size: 3.2cqi; font-weight: 900; line-height: 1; letter-spacing: 0.07em; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+      .pip-playlist:hover, .pip-playlist[aria-expanded="true"] { color: #050505; background: #ffe043; border-color: #ffe043; }
+      .pip-playlist:focus-visible, .pip-control:focus-visible, .pip-edge-bar:focus-visible { outline: 2px solid #ffe043; outline-offset: 2px; }
+      .pip-track { display: grid; height: 16cqi; align-content: center; justify-items: center; overflow: hidden; white-space: nowrap; }
+      .pip-track h2 { width: 100%; max-width: 100%; margin: 0; overflow: hidden; font: 900 4.5cqi/1.1 Archivo, sans-serif; text-overflow: ellipsis; }
+      .pip-track .music-pick__artist { margin-top: 1cqi; color: #b7b9b7; font: 700 3cqi/1 Archivo, sans-serif; }
+      .pip-timeline { padding-top: 2cqi; color: #c5c6c3; font: 2.7cqi Archivo, sans-serif; }
+      .pip-time { display: flex; justify-content: space-between; }
+      .pip-progress { display: block; width: 100%; height: 1cqi !important; margin: 3cqi 0 0 !important; padding: 0; accent-color: #ffe043; }
+      .pip-controls { display: flex; height: 27cqi; align-items: center; justify-content: center; gap: 7cqi; }
+      .pip-control { box-sizing: border-box; -webkit-appearance: none; appearance: none; display: grid; width: 17cqi; aspect-ratio: 1; padding: 0; place-items: center; background: #050505; border: 1px solid #bfc1c1; border-radius: 50%; color: #f3f3ef; font-family: Arial, sans-serif; font-size: 6cqi; line-height: 1; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+      .pip-control--main { width: 22cqi; color: #ffe043; font-size: 8cqi; }
+      .pip-play-icon--pause { display: none; }
+      .pip-control--main[data-playing="true"] .pip-play-icon--play { display: none; }
+      .pip-control--main[data-playing="true"] .pip-play-icon--pause { display: inline; }
+      .pip-control:disabled { opacity: 0.45; cursor: wait; }
+      .pip-control svg,
+      .pip-playlist svg { display: none; }
+      .pip-brand { padding: 1cqi 0 2cqi; color: #b7b9b7; text-align: center; font: 900 5cqi Archivo, sans-serif; letter-spacing: 0.2em; }
+      .pip-brand-wrap { position: relative; }
+      .pip-hide-hint { position: absolute; top: 50%; color: #ffe043; font: 900 4.5cqi/1 Archivo, sans-serif; letter-spacing: 0.04em; opacity: 0; pointer-events: none; transform: translateY(-50%); white-space: nowrap; }
+      .pip-hide-hint--left { left: 0; }
+      .pip-hide-hint--right { right: 0; }
+      .pip-window.is-near-left .pip-hide-hint--left,
+      .pip-window.is-near-right .pip-hide-hint--right { animation: hide-hint-glint 1.1s ease-in-out infinite; }
+      @keyframes hide-hint-glint { 0%, 100% { opacity: 0.42; text-shadow: 0 0 0 transparent; } 50% { opacity: 1; text-shadow: 0 0 8px rgb(255 224 67 / 75%); } }
+      @media (min-width: 760px) {
+        .pip-window { right: 8vw; bottom: 8vh; }
+      }
+      @media (max-width: 759px) {
+        .pip-edge-bar { top: 86svh; cursor: pointer; touch-action: manipulation; }
+        .pip-window button,
+        .pip-edge-bar {
+          -webkit-appearance: none !important;
+          appearance: none !important;
+          background-image: none !important;
+          text-shadow: none !important;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .pip-window button::-webkit-focus-inner,
+        .pip-edge-bar::-webkit-focus-inner { padding: 0; border: 0; }
+        .pip-control {
+          box-sizing: border-box;
+          min-width: 0;
+          padding: 0;
+          background: #050505 !important;
+          background-image: none !important;
+          border: 1px solid #bfc1c1 !important;
+          border-radius: 50% !important;
+          box-shadow: none !important;
+          color: #f3f3ef !important;
+          font-size: 0;
+        }
+        .pip-control--main { color: #ffe043 !important; }
+        .pip-control > span[aria-hidden="true"] { display: none !important; }
+        .pip-control svg { display: block; width: 6cqi; height: 5cqi; overflow: visible; }
+        .pip-control--main svg { width: 8cqi; height: 8cqi; }
+        .pip-control svg .transport-stop { fill: none; stroke: currentColor; stroke-width: 5; stroke-linecap: square; }
+        .pip-control svg path:not(.transport-stop) { fill: currentColor; }
+        .pip-control .pip-play-icon--pause { display: none; }
+        .pip-control--main[data-playing="true"] .pip-play-icon--play { display: none; }
+        .pip-control--main[data-playing="true"] .pip-play-icon--pause { display: block; }
+        .pip-playlist {
+          -webkit-appearance: none !important;
+          appearance: none !important;
+          min-height: 12cqi;
+          padding: 0;
+          background: #101010 !important;
+          background-image: none !important;
+          border: 1px solid #292929 !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+          color: #ffe043 !important;
+          font: 900 3.2cqi/1 Archivo, sans-serif !important;
+          text-shadow: none !important;
+        }
+        .pip-playlist:active,
+        .pip-playlist[aria-expanded="true"] { color: #050505 !important; background: #ffe043 !important; }
+        .pip-playlist > span[aria-hidden="true"] { display: none !important; }
+        .pip-playlist svg { display: block; width: 3.2cqi; height: 3.2cqi; fill: none; stroke: currentColor; stroke-width: 2; }
+      }
+    </style>
+  </head>
+  <body data-page="music-pick" data-walkman-page="true">
+    <main class="pip-stage" data-music-pick data-walkman-page="true" data-initial-track-id="12fJAnaif34" data-walkman-sample-track-id="bNg8GPZkOTc" aria-label="Yellow Walkman PIP visual test">
+      <section class="pip-window music-pick__now" aria-label="Walkman picture-in-picture player">
+        <div class="pip-screen">
+          <div class="pip-heading">
+            <span class="pip-heading__title"><b>Y</b>OU <b>A</b>CCEPT <b>M</b>Y <b>E</b>CSTASY</span>
+            <span class="pip-number" data-now-number>01</span>
+          </div>
+          <div class="pip-art">
+            <div class="music-pick__player">
+              <iframe data-music-player src="https://www.youtube-nocookie.com/embed/12fJAnaif34?rel=0&amp;playsinline=1&amp;controls=0" title="YAME Walkman PIP player" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="pip-format">YAME MUSIC PICKS</div>
+          <div class="pip-eq-row" aria-hidden="true">
+            <div class="pip-eq" data-music-visualizer aria-hidden="true"></div>
+          <button class="pip-playlist" type="button" data-device-playlist-toggle aria-expanded="false" aria-controls="pip-playlist-panel"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16" /></svg><span aria-hidden="true">☰ &nbsp;</span><span lang="en">PLAYLIST</span><span lang="ko">재생목록</span></button>
+          </div>
+          <div class="pip-track walkman-device__track-info">
+            <h2 data-now-title><span class="walkman-title-track" data-walkman-title-track><span class="walkman-title-text" data-walkman-title-text>I Was Made For Lovin' You</span><span class="walkman-title-copy" data-walkman-title-copy aria-hidden="true">I Was Made For Lovin' You</span></span></h2>
+            <p class="music-pick__artist" data-now-artist>Kiss</p>
+          </div>
+          <div class="pip-timeline walkman-device__timeline">
+            <div class="pip-time walkman-device__time-labels"><span data-playback-elapsed>0:00</span><span data-playback-duration>--:--</span></div>
+            <input class="pip-progress" type="range" min="0" max="1" value="0" data-playback-progress aria-label="Seek through the current song" />
+          </div>
+          <nav class="pip-controls walkman-device__controls" data-track-navigation aria-label="Playlist navigation">
+            <button class="pip-control" type="button" data-track-previous aria-label="Previous track"><svg viewBox="0 0 64 48" aria-hidden="true" focusable="false"><path class="transport-stop" d="M10 8v32" /><path d="M54 8 23 24l31 16z" /></svg><span aria-hidden="true">|◀</span><span class="visually-hidden" data-track-previous-title></span></button>
+            <button class="pip-control pip-control--main" type="button" data-player-toggle data-playing="false" aria-label="Play playback"><svg class="pip-play-icon--play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12-7.5z" /></svg><svg class="pip-play-icon--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z" /></svg><span class="pip-play-icon--play" aria-hidden="true">▶</span><span class="pip-play-icon--pause" aria-hidden="true">Ⅱ</span></button>
+            <button class="pip-control" type="button" data-track-next aria-label="Next track"><svg viewBox="0 0 64 48" aria-hidden="true" focusable="false"><path class="transport-stop" d="M54 8v32" /><path d="M10 8l31 16-31 16z" /></svg><span aria-hidden="true">▶|</span><span class="visually-hidden" data-track-next-title></span></button>
+          </nav>
+          <div class="pip-brand-wrap"><span class="pip-hide-hint pip-hide-hint--left" aria-hidden="true">&lt;&lt;&lt; HIDE ME!</span><div class="pip-brand">YAME</div><span class="pip-hide-hint pip-hide-hint--right" aria-hidden="true">HIDE ME! &gt;&gt;&gt;</span></div>
+          <section class="walkman-device__playlist-panel" id="pip-playlist-panel" data-device-playlist-panel hidden aria-label="Track playlist">
+            <div class="walkman-device__playlist-heading"><div><p class="eyebrow"><span lang="en">PLAYLIST</span><span lang="ko">재생목록</span></p><span class="walkman-device__playlist-count" data-device-playlist-count></span></div><button class="walkman-device__playlist-close" type="button" data-device-playlist-close aria-label="Close playlist">×</button></div>
+            <label class="walkman-device__playlist-search"><span class="visually-hidden">Search playlist</span><input type="search" data-device-playlist-search placeholder="Search title or artist" autocomplete="off" /></label>
+            <div class="walkman-device__playlist-list" data-device-playlist-list role="listbox" aria-label="Playlist tracks"></div>
+          </section>
+        </div>
+      </section>
+      <button class="pip-edge-bar pip-edge-bar--left" type="button" data-pip-edge-tab="left" aria-label="Show Walkman player from the left edge" hidden>
+        <span class="pip-edge-bar__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span> TAP / CLICK TO OPEN
+      </button>
+      <button class="pip-edge-bar pip-edge-bar--right" type="button" data-pip-edge-tab="right" aria-label="Show Walkman player from the right edge" hidden>
+        <span class="pip-edge-bar__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span> TAP / CLICK TO OPEN
+      </button>
+      <aside class="music-pick__library" hidden aria-hidden="true">
+        <label><input type="search" data-track-search /></label><span data-track-count></span>
+        <div class="music-pick__filters"><button type="button" data-track-filter="all">ALL</button></div>
+        <div data-track-list></div>
+      </aside>
+    </main>
+    <script>
+      const pipWindow = document.querySelector('.pip-window');
+      let dragOriginX = 0;
+      let dragOriginY = 0;
+      let pointerOriginX = 0;
+      let pointerOriginY = 0;
+      let dragging = false;
+
+      pipWindow.addEventListener('pointerdown', (event) => {
+        if (event.target.closest('button, input, iframe, [data-device-playlist-panel]')) return;
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        const rect = pipWindow.getBoundingClientRect();
+        pipWindow.classList.remove('is-hidden-left', 'is-hidden-right');
+        dragOriginX = rect.left;
+        dragOriginY = rect.top;
+        pointerOriginX = event.clientX;
+        pointerOriginY = event.clientY;
+        pipWindow.style.left = `${rect.left}px`;
+        pipWindow.style.top = `${rect.top}px`;
+        pipWindow.style.right = 'auto';
+        pipWindow.style.bottom = 'auto';
+        dragging = true;
+        pipWindow.classList.add('is-dragging');
+        pipWindow.setPointerCapture(event.pointerId);
+        event.preventDefault();
+      });
+
+      pipWindow.addEventListener('pointermove', (event) => {
+        if (!dragging) return;
+        const rect = pipWindow.getBoundingClientRect();
+        const left = Math.min(Math.max(0, dragOriginX + event.clientX - pointerOriginX), innerWidth - rect.width);
+        const top = Math.min(Math.max(0, dragOriginY + event.clientY - pointerOriginY), innerHeight - rect.height);
+        pipWindow.style.left = `${left}px`;
+        pipWindow.style.top = `${top}px`;
+        updateHideHint(left, rect.width);
+      });
+
+      const edgeTabs = [...document.querySelectorAll('[data-pip-edge-tab]')];
+      const updateHideHint = (left, width) => {
+        const rightGap = innerWidth - left - width;
+        pipWindow.classList.toggle('is-near-left', left <= rightGap);
+        pipWindow.classList.toggle('is-near-right', rightGap < left);
+      };
+      {
+        const rect = pipWindow.getBoundingClientRect();
+        updateHideHint(rect.left, rect.width);
+      }
+      const stopDragging = () => {
+        if (!dragging) return;
+        dragging = false;
+        pipWindow.classList.remove('is-dragging');
+        const rect = pipWindow.getBoundingClientRect();
+        updateHideHint(rect.left, rect.width);
+        const edgeY = Math.min(innerHeight - 48, Math.max(48, rect.top + rect.height / 2));
+        document.documentElement.style.setProperty('--pip-edge-y', `${edgeY}px`);
+        if (rect.left <= 36) {
+          pipWindow.style.left = '0px';
+          pipWindow.style.right = 'auto';
+          pipWindow.classList.add('is-hidden-left');
+          document.querySelector('[data-pip-edge-tab="left"]').hidden = false;
+        } else if (innerWidth - rect.right <= 36) {
+          pipWindow.style.left = `${innerWidth - rect.width}px`;
+          pipWindow.style.right = 'auto';
+          pipWindow.classList.add('is-hidden-right');
+          document.querySelector('[data-pip-edge-tab="right"]').hidden = false;
+        }
+      };
+      pipWindow.addEventListener('pointerup', stopDragging);
+      pipWindow.addEventListener('pointercancel', stopDragging);
+      let edgePointer = null;
+      let edgeWasDragged = false;
+      const restoreWindow = (tab) => {
+        const side = tab.dataset.pipEdgeTab;
+        const barRect = tab.getBoundingClientRect();
+        const rect = pipWindow.getBoundingClientRect();
+        const center = barRect.top + barRect.height / 2;
+        const top = Math.min(Math.max(0, center - rect.height / 2), innerHeight - rect.height);
+        const restoredLeft = side === 'left' ? 0 : innerWidth - rect.width;
+        pipWindow.style.left = `${restoredLeft}px`;
+        pipWindow.style.right = 'auto';
+        if (matchMedia('(max-width: 759px)').matches) {
+          pipWindow.style.top = 'auto';
+          pipWindow.style.bottom = '8vh';
+        } else {
+          pipWindow.style.top = `${top}px`;
+          pipWindow.style.bottom = 'auto';
+        }
+        pipWindow.classList.remove('is-hidden-left', 'is-hidden-right');
+        updateHideHint(restoredLeft, rect.width);
+        edgeTabs.forEach((edgeTab) => { edgeTab.hidden = true; });
+      };
+
+      edgeTabs.forEach((tab) => {
+        tab.addEventListener('pointerdown', (event) => {
+          if (matchMedia('(max-width: 759px)').matches) return;
+          if (event.pointerType === 'mouse' && event.button !== 0) return;
+          const rect = tab.getBoundingClientRect();
+          edgePointer = { id: event.pointerId, startY: event.clientY, centerY: rect.top + rect.height / 2, moved: false };
+          edgeWasDragged = false;
+          tab.setPointerCapture(event.pointerId);
+          event.preventDefault();
+        });
+        tab.addEventListener('pointermove', (event) => {
+          if (matchMedia('(max-width: 759px)').matches) return;
+          if (!edgePointer || edgePointer.id !== event.pointerId) return;
+          const delta = event.clientY - edgePointer.startY;
+          if (Math.abs(delta) > 4) edgePointer.moved = true;
+          const halfHeight = tab.getBoundingClientRect().height / 2;
+          const center = Math.min(Math.max(halfHeight, edgePointer.centerY + delta), innerHeight - halfHeight);
+          document.documentElement.style.setProperty('--pip-edge-y', `${center}px`);
+        });
+        tab.addEventListener('pointerup', (event) => {
+          if (!edgePointer || edgePointer.id !== event.pointerId) return;
+          edgeWasDragged = edgePointer.moved;
+          edgePointer = null;
+        });
+        tab.addEventListener('pointercancel', () => { edgePointer = null; });
+        tab.addEventListener('click', () => {
+          if (edgeWasDragged) { edgeWasDragged = false; return; }
+          restoreWindow(tab);
+        });
+      });
+    </script>
+  </body>
+</html>
