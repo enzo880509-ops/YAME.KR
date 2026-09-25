@@ -22,7 +22,7 @@ const stories = {
   },
   "sony-fx5": {
     kicker: "Review / Camera / Specification review",
-    title: "Sony FX5",
+    title: "The Cinema FX5",
     dek: "Open Gate and internal RAW bring more framing choices to the Cinema Line. Here is what to keep in mind before the first shoot.",
     author: "YAME Review Desk",
     readTime: "2 min read",
