@@ -1,0 +1,19 @@
+{
+  "name": "yame-editor",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy --schema-required",
+    "import:existing": "sanity datasets import initial-articles.ndjson production"
+  },
+  "dependencies": {
+    "react": "^19.2.2",
+    "react-dom": "^19.2.2",
+    "sanity": "^6.16.0",
+    "styled-components": "^6.1.15"
+  },
+  "devDependencies": {}
+}

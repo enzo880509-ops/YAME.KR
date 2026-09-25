@@ -416,6 +416,177 @@ const translations = {
   }
 };
 
+// Published articles authored in Sanity are merged into the existing static
+// catalogue before the page initializes. The static copy remains available if
+// Sanity is temporarily unreachable.
+const sanityProjectId = 'x0whfq92';
+const sanityDataset = 'production';
+const sanityStorySlugs = new Set();
+
+function portableTextToStoryBlocks(blocks = []) {
+  return blocks.flatMap((block) => {
+    if (block?._type === 'block') {
+      const text = (block.children || []).map((child) => child.text || '').join('');
+      if (!text.trim()) return [];
+      if (block.style === 'h2') return [{heading: text}];
+      if (block.style === 'blockquote') return [{quote: text}];
+      return [text];
+    }
+    if (block?._type === 'image' && block.asset?._ref) {
+      const [, imageId] = block.asset._ref.match(/^image-(.+)-\d+x\d+-([^.]+)$/) || [];
+      const ext = block.asset._ref.match(/^image-.+-\d+x\d+-(.+)$/)?.[1];
+      if (imageId && ext) return [{image: `https://cdn.sanity.io/images/${sanityProjectId}/${sanityDataset}/${imageId}.${ext}`, alt: block.alt || ''}];
+    }
+    return [];
+  });
+}
+
+function loadSanityArticles() {
+  const query = encodeURIComponent(`*[_type == "article" && published == true] | order(_createdAt desc) {
+    "slug": slug.current, category, reviewType, author, readTime,
+    titleEn, kickerEn, dekEn, bodyEn, titleKo, kickerKo, dekKo, bodyKo,
+    "image": coalesce(coverImage.asset->url, coverUrl), "alt": coverImage.alt,
+    captionEn, captionKo, sourceLabel, sourceUrl,
+    "gallery": gallery[]{alt, "url": asset->url}
+  }`);
+  const url = `https://${sanityProjectId}.api.sanity.io/v2025-02-19/data/query/${sanityDataset}?query=${query}`;
+  const timeout = new AbortController();
+  const timer = window.setTimeout(() => timeout.abort(), 2500);
+
+  return fetch(url, {signal: timeout.signal, headers: {Accept: 'application/json'}})
+    .then((response) => response.ok ? response.json() : Promise.reject(new Error(`Sanity returned ${response.status}`)))
+    .then(({result = []}) => result.forEach((doc) => {
+      if (!doc.slug || !doc.titleEn) return;
+      const slug = doc.slug;
+      const category = ['review', 'news', 'community'].includes(doc.category) ? doc.category : 'news';
+      const defaultKicker = category === 'review' ? `Review / ${doc.reviewType || 'Story'}` : `${category[0].toUpperCase()}${category.slice(1)} / Story`;
+      const base = {
+        kicker: doc.kickerEn || defaultKicker,
+        title: doc.titleEn,
+        dek: doc.dekEn || '',
+        author: doc.author || 'YAME Editorial Desk',
+        readTime: doc.readTime || '2 min read',
+        image: doc.image || '',
+        alt: doc.alt || doc.titleEn,
+        caption: doc.captionEn || '',
+        product: category === 'review',
+        news: category === 'news',
+        source: doc.sourceUrl ? {label: doc.sourceLabel || 'Source', url: doc.sourceUrl} : null,
+        body: portableTextToStoryBlocks(doc.bodyEn),
+        gallery: (doc.gallery || []).filter((item) => item.url),
+        sanity: true,
+        category,
+        reviewType: doc.reviewType === 'audio' ? 'audio' : 'camera',
+      };
+      stories[slug] = base;
+      translations[slug] = {
+        en: {title: doc.titleEn, kicker: doc.kickerEn || defaultKicker, dek: doc.dekEn || '', body: base.body, caption: doc.captionEn || ''},
+        ko: {
+          title: doc.titleKo || doc.titleEn,
+          kicker: doc.kickerKo || (category === 'review' ? `리뷰 / ${doc.reviewType === 'audio' ? '오디오' : doc.reviewType === 'video' ? '영상' : '카메라'}` : category === 'news' ? '뉴스 / 스토리' : '커뮤니티 / 스토리'),
+          dek: doc.dekKo || doc.dekEn || '',
+          body: portableTextToStoryBlocks(doc.bodyKo?.length ? doc.bodyKo : doc.bodyEn),
+          caption: doc.captionKo || doc.captionEn || '',
+        },
+      };
+      sanityStorySlugs.add(slug);
+    }))
+    .catch((error) => {
+      console.info('Sanity articles are not available yet; using the current YAME content.', error.name === 'AbortError' ? '' : error.message);
+    })
+    .finally(() => window.clearTimeout(timer));
+}
+
+function setupSanityArchiveCards() {
+  const page = document.body.dataset.page;
+  const grid = page === 'review' ? document.querySelector('#review-grid') : page === 'news' ? document.querySelector('#news-grid') : null;
+  if (!grid) return;
+  const existing = new Set([...grid.querySelectorAll('a[href*="story="]')].map((card) => new URL(card.href).searchParams.get('story')));
+  const documents = [...sanityStorySlugs].filter((slug) => stories[slug]?.category === page && !existing.has(slug));
+  [...documents].reverse().forEach((slug, index) => {
+    const story = stories[slug];
+    const card = document.createElement('a');
+    card.className = 'review-card';
+    card.dataset.story = slug;
+    if (page === 'review') card.dataset.reviewCategory = story.reviewType;
+    const imageWrap = document.createElement('div');
+    imageWrap.className = 'review-card__image';
+    const image = document.createElement('img');
+    image.src = story.image;
+    image.alt = story.alt;
+    image.loading = 'lazy';
+    const number = document.createElement('span');
+    number.className = 'review-card__number';
+    number.textContent = String(index + 1).padStart(2, '0');
+    imageWrap.append(image, number);
+    const body = document.createElement('div');
+    body.className = 'review-card__body';
+    const kicker = document.createElement('p');
+    kicker.className = 'kicker';
+    kicker.textContent = story.kicker;
+    const title = document.createElement('h2');
+    title.textContent = story.title;
+    const dek = document.createElement('p');
+    dek.textContent = story.dek;
+    body.append(kicker, title, dek);
+    card.href = `../article/?story=${encodeURIComponent(slug)}&from=${page}`;
+    card.append(imageWrap, body);
+    grid.prepend(card);
+  });
+  const count = document.querySelector('.review-count');
+  if (count) count.textContent = `${grid.querySelectorAll('.review-card').length} ${page === 'review' ? 'reviews' : 'stories'}`;
+}
+
+function setupSanityFeaturedSlides() {
+  const reviewSequence = [...sanityStorySlugs].filter((slug) => stories[slug]?.category === 'review');
+  const newsSequence = [...sanityStorySlugs].filter((slug) => stories[slug]?.category === 'news');
+  articleSequences.review = [...reviewSequence, ...articleSequences.review.filter((slug) => !reviewSequence.includes(slug))];
+  articleSequences.news = [...newsSequence, ...articleSequences.news.filter((slug) => !newsSequence.includes(slug))];
+
+  const track = document.querySelector('#featured-track');
+  if (!track) return;
+  const existing = new Set([...track.querySelectorAll('a[href*="story="]')].map((card) => new URL(card.href).searchParams.get('story')));
+  const documents = [...sanityStorySlugs].filter((slug) => !existing.has(slug) && stories[slug]?.image);
+  [...documents].reverse().forEach((slug) => {
+    const story = stories[slug];
+    const article = document.createElement('article');
+    article.className = 'feature-slide';
+    article.dataset.story = slug;
+    article.setAttribute('role', 'group');
+    article.setAttribute('aria-roledescription', 'slide');
+    const link = document.createElement('a');
+    link.className = 'feature-link';
+    link.href = `./article/?story=${encodeURIComponent(slug)}`;
+    link.draggable = false;
+    article.setAttribute('aria-label', `${track.querySelectorAll('.feature-slide').length + 1} featured: ${story.title}`);
+    const photo = document.createElement('div');
+    photo.className = 'feature-photo';
+    const image = document.createElement('img');
+    image.src = story.image;
+    image.alt = story.alt;
+    image.loading = 'lazy';
+    const tag = document.createElement('span');
+    tag.className = 'feature-tag';
+    tag.textContent = story.kicker;
+    photo.append(image, tag);
+    const copy = document.createElement('div');
+    copy.className = 'feature-copy';
+    const kicker = document.createElement('p');
+    kicker.className = 'kicker';
+    kicker.textContent = story.kicker;
+    const title = document.createElement('h3');
+    title.textContent = story.title;
+    const dek = document.createElement('p');
+    dek.textContent = story.dek;
+    copy.append(kicker, title, dek);
+    link.append(photo, copy);
+    article.append(link);
+    track.prepend(article);
+  });
+  const slides = [...track.querySelectorAll('.feature-slide')];
+  slides.forEach((slide, index) => slide.setAttribute('aria-label', `${index + 1} of ${slides.length}: ${slide.querySelector('h3')?.textContent || 'Featured article'}`));
+}
+
 function languagePreference() {
   return new URLSearchParams(window.location.search).get('lang') === 'kr' ? 'kr' : 'en';
 }
@@ -559,6 +730,8 @@ function setupCarousel() {
   const dots = [...carousel.querySelectorAll('[data-slide-to]')];
   const number = carousel.querySelector('[data-slide-number]');
   const status = carousel.querySelector('[data-carousel-status]');
+  const count = carousel.querySelector('.carousel-count');
+  if (count?.lastChild?.nodeType === Node.TEXT_NODE) count.lastChild.textContent = ` / ${String(slides.length).padStart(2, '0')}`;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const desktopCarousel = window.matchMedia('(min-width: 760px)');
   let active = 0;
@@ -744,7 +917,27 @@ function renderArticle() {
   if (story.product) fragment.querySelector('.article-shell').classList.add('article-shell--product');
   if (story.news) fragment.querySelector('.article-shell').classList.add('article-shell--news');
 
-  if (slug === 'canon-eos-c80') {
+  if (story.sanity && story.gallery?.length) {
+    const gallery = fragment.querySelector('[data-article-gallery]');
+    gallery.hidden = false;
+    gallery.innerHTML = '<p class="article-gallery__label">MORE VIEWS</p><div class="article-gallery__track"></div>';
+    const track = gallery.querySelector('.article-gallery__track');
+    story.gallery.forEach((item, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'article-gallery__item';
+      button.dataset.gallerySrc = item.url;
+      const alt = item.alt || `${story.title} detail view ${index + 1}`;
+      button.setAttribute('aria-label', `Open ${alt}`);
+      const image = document.createElement('img');
+      image.src = item.url;
+      image.alt = alt;
+      image.loading = 'lazy';
+      button.append(image);
+      button.addEventListener('click', () => openGalleryLightbox(item.url, alt));
+      track.append(button);
+    });
+  } else if (slug === 'canon-eos-c80') {
     const gallery = fragment.querySelector('[data-article-gallery]');
     const galleryImages = Array.from({ length: 7 }, (_, index) => `../assets/canon-eos-c80-detail-${index + 1}.png`);
     gallery.hidden = false;
@@ -782,9 +975,17 @@ function renderArticle() {
   const body = fragment.querySelector('[data-field="body"]');
   body.lang = language === 'kr' ? 'ko' : 'en';
   story.body.forEach((block) => {
-    const element = document.createElement(
-      typeof block === 'string' ? 'p' : block.heading ? 'h2' : 'blockquote'
-    );
+    if (block?.image) {
+      const figure = document.createElement('figure');
+      const bodyImage = document.createElement('img');
+      bodyImage.src = block.image;
+      bodyImage.alt = block.alt || '';
+      bodyImage.loading = 'lazy';
+      figure.append(bodyImage);
+      body.append(figure);
+      return;
+    }
+    const element = document.createElement(typeof block === 'string' ? 'p' : block.heading ? 'h2' : 'blockquote');
     element.textContent = typeof block === 'string' ? block : block.heading || block.quote;
     element.lang = language === 'kr' ? 'ko' : 'en';
     body.appendChild(element);
@@ -795,7 +996,7 @@ function renderArticle() {
     sources.className = 'article-sources';
     sources.setAttribute('aria-label', 'Article source');
     const label = document.createElement('p');
-    label.textContent = 'Source · Manufacturer specifications';
+    label.textContent = language === 'kr' ? '출처 · 참고 자료' : 'Source · Reference';
     const link = document.createElement('a');
     link.href = story.source.url;
     link.textContent = story.source.label;
@@ -1022,8 +1223,12 @@ function updateStoryCards(language) {
 
     const title = card.querySelector('.feature-copy h3, .story-card__content .headline, .review-card__body h2');
     const subtitle = card.querySelector('.feature-copy > p:last-child, .story-card__content .summary, .review-card__body > p:not(.kicker)');
+    const kicker = card.querySelector('.feature-copy .kicker, .review-card__body .kicker');
+    const image = card.querySelector('.feature-photo img, .review-card__image img');
     if (title) { title.textContent = story.title; title.lang = language === 'kr' ? 'ko' : 'en'; }
     if (subtitle) { subtitle.textContent = story.dek; subtitle.lang = language === 'kr' ? 'ko' : 'en'; }
+    if (kicker) { kicker.textContent = story.kicker; kicker.lang = language === 'kr' ? 'ko' : 'en'; }
+    if (image && story.image) { image.src = story.image; image.alt = story.alt || story.title; }
   });
 }
 
@@ -2358,6 +2563,8 @@ function setupPersistentPipNavigation() {
     if (currentDescription && nextDescription) currentDescription.content = nextDescription.content;
 
     setupMenu();
+    setupSanityFeaturedSlides();
+    setupSanityArchiveCards();
     setupCarousel();
     setupReviewFilters();
     setupLanguageSelector();
@@ -2435,6 +2642,9 @@ function setupPersistentPipNavigation() {
   });
 }
 
+await loadSanityArticles();
+setupSanityFeaturedSlides();
+setupSanityArchiveCards();
 mountGlobalWalkmanPip();
 setupInitialScrollPosition();
 setupIntroSplash();
